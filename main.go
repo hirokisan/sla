@@ -6,16 +6,17 @@ import (
 )
 
 var (
-	app  = kingpin.New("chat", "A command-line chat application.")
-	post = kingpin.Command("post", "post message to slack")
-	url  = post.Flag("url", "incomming webhook url").Short('u').String()
+	app     = kingpin.New("chat", "A command-line chat application.")
+	post    = kingpin.Command("post", "post message to slack")
+	url     = post.Flag("url", "incomming webhook url").Short('u').String()
+	message = post.Flag("message", "message").Short('m').String()
 )
 
 func main() {
 	switch kingpin.Parse() {
 	case "post":
 		if *url != "" {
-			message := Message("this is message")
+			message := Message(*message)
 			slack.PostWebhook(*url, message)
 		}
 	}
